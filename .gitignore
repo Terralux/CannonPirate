@@ -1,0 +1,41 @@
+# =============== #
+# Unity generated #
+# =============== #
+Cannon Pirate/[Tt]emp/
+Cannon Pirate/[Oo]bj/
+Cannon Pirate/[Bb]uilds/
+Cannon Pirate/[Ll]ibrary/
+Cannon Pirate/[Ll]ibrary_ANDROID/
+Cannon Pirate/[Ll]ibrary_PC/
+Cannon Pirate/[Ll]ibrary_IOS/
+Cannon Pirate/sysinfo.txt
+Cannon Pirate/UnityVS/
+Cannon Pirate/UnityVS.meta
+Cannon Pirate/LightingData*
+Cannon Pirate/ReflectionProbe*
+Cannon Pirate/Assets/Scenes/Personal Scenes*
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+Cannon Pirate/[Ee]xported[Oo]bj/
+Cannon Pirate/*.userprefs
+Cannon Pirate/*.csproj
+Cannon Pirate/*.pidb
+Cannon Pirate/*.suo
+Cannon Pirate/*.sln*
+Cannon Pirate/*.user
+Cannon Pirate/*.unityproj
+Cannon Pirate/*.booproj
+
+# ============
+# OS generated
+# ============
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Thumbs.db.meta
