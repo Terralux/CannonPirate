@@ -29,7 +29,6 @@ public class Shoot : MonoBehaviour {
 		}
 
 		Physics.gravity = Physics.gravity * 0.4f;
-
 	}
 	
 	// Update is called once per frame
@@ -38,6 +37,7 @@ public class Shoot : MonoBehaviour {
 			return;
 		}
 
+		/*
 		if (isBoosting) {
 			currentPower = currentPower + (Time.deltaTime * shotIntensity * (isIncreasing ? 1 : -1));
 
@@ -48,6 +48,7 @@ public class Shoot : MonoBehaviour {
 				isIncreasing = true;
 			}
 		}
+		*/
 
 		Vector3 lookTarget = new Vector3 (targets[targetIndex].position.x, transform.position.y, targets[targetIndex].position.z);
 		transform.LookAt (lookTarget);
@@ -59,13 +60,9 @@ public class Shoot : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyDown (KeyCode.Return)) {
-			isBoosting = true;
-		}
-
 		if (Input.GetKeyUp (KeyCode.Return)) {
+			currentPower = 300f;
 			Fire ();
-			isBoosting = false;
 		}
 	}
 
@@ -74,7 +71,7 @@ public class Shoot : MonoBehaviour {
 		Vector3 fireForce = firePosition.forward * currentPower;
 		tempGO.GetComponent<Rigidbody> ().AddForce (fireForce);
 
-		ResetFire ();
+		//ResetFire ();
 	}
 
 	void ResetFire(){
