@@ -21,6 +21,7 @@ public class BuoyancyScript : MonoBehaviour {
 
 	private Mesh water;
 	private Transform waterTransform;
+	//private WavesScript waves;
 
 	private Vector3 average;
 
@@ -31,32 +32,34 @@ public class BuoyancyScript : MonoBehaviour {
 		bp = new BoxPoints(bc.size.x/2, bc.size.z/2, bc.size.y/2);
 
 		waterTransform = GameObject.FindGameObjectWithTag ("Water").transform;
+		//waves = waterTransform.GetComponent<WavesScript> ();
 		water = waterTransform.GetComponent<MeshFilter>().mesh;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 min = water.vertices[0];
+		int minIndex = 0;
 		for(int i = 0; i < water.vertices.Length; i++){
-			if (Vector3.Distance (water.vertices[i], transform.position) < Vector3.Distance (min, transform.position)) {
-				min = water.vertices[i];
+			if (Vector3.Distance (water.vertices[i], transform.position) < Vector3.Distance (water.vertices[minIndex], transform.position)) {
+				minIndex = i;
 			}
 		}
 
-		min = waterTransform.TransformPoint (min);
+		Vector3 minPos = waterTransform.TransformPoint (water.vertices[minIndex]);
+		//Vector3 minPos = waterTransform.TransformPoint (waves.GetPositionOfVertex(minIndex));
 
-		if (transform.position.y < min.y) {
+		if (transform.position.y < minPos.y) {
 			rb.AddForce (new Vector3 (0, upwardsForce, 0) + rb.velocity * -1 * viscusity);
 
 			average = Vector3.zero;
 			int count = 0;
 
 			for (int i = 0; i < 4; i++) {
-				if (transform.TransformPoint(bp.top.points [i]).y < min.y) {
+				if (transform.TransformPoint(bp.top.points [i]).y < minPos.y) {
 					average += transform.TransformPoint(bp.top.points [i]);
 					count++;
 				}
-				if (transform.TransformPoint(bp.bottom.points [i]).y < min.y) {
+				if (transform.TransformPoint(bp.bottom.points [i]).y < minPos.y) {
 					average += transform.TransformPoint(bp.bottom.points [i]);
 					count++;
 				}
@@ -67,40 +70,6 @@ public class BuoyancyScript : MonoBehaviour {
 			rb.AddForceAtPosition (Vector3.up * surfaceFloatForce, average);
 		}
 	}
-
-	void OnDrawGizmos(){
-		Gizmos.DrawLine (average + transform.position, average + transform.position + Vector3.up * 5);
-
-		if (bp != null) {
-
-			Gizmos.color = Color.green;
-			for (int i = 0; i < 4; i++) {
-				Gizmos.DrawSphere (transform.TransformPoint (bp.top.points [i]), 0.1f);
-				Gizmos.DrawSphere (transform.TransformPoint (bp.bottom.points [i]), 0.1f);
-			}
-		}
-	}
-
-	//calculate average of points below the water
-	//Vector3 v1 = Vector3.Cross(forwardVelocity, Vector3.up);
-	//Vector3 v2 = Vector3.Cross(forwardVelocity, v1);
-	//raycast across that plane
-
-	/*
-	Vector3 pointOutFront = transform.position + (velocityDirection * 10);
-
-	for(float x = -width; x <= width; x += 1){
-		for(float y = -width; y <= width; y += 1){
-			Vector3 start = pointOutFront + (v1 * x) + (v2 * y);
-			if(Physics.Raycast(start, -velocityDirection, out hit, 10)){
-				Push it!
-			}
-		}
-	} 
-	*/
-
-	//To handle waves, compare points of water to center of object
-
 }
 
 public class BoxPoints{

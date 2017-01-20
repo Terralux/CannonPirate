@@ -15,10 +15,11 @@ public class Shoot : MonoBehaviour {
 	private float currentPower = 1;
 	public float shotIntensity = 10f;
 
-	private bool isBoosting = false;
-	private bool isIncreasing = true;
+	//private bool isBoosting = false;
+	//private bool isIncreasing = true;
 
 	public Transform firePosition;
+	public Transform player;
 
 	// Use this for initialization
 	void Start () {
@@ -70,8 +71,10 @@ public class Shoot : MonoBehaviour {
 		GameObject tempGO = Instantiate (CannonBallPrefab, firePosition.position, CannonBallPrefab.transform.rotation) as GameObject;
 		Vector3 fireForce = firePosition.forward * currentPower;
 		tempGO.GetComponent<Rigidbody> ().AddForce (fireForce);
+		player.SetParent (tempGO.transform);
+		player.localPosition = Vector3.up;
 
-		//ResetFire ();
+		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerFiredCannon ();
 	}
 
 	void ResetFire(){
