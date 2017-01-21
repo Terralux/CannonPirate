@@ -27,6 +27,9 @@ public class Toolbox : Singleton<Toolbox>
 
 		var controller = this.GetOrAddComponent<Controller> ();
 		RegisterComponent<Controller> (controller);
+
+		var pointsMaster = this.GetOrAddComponent<PointsMaster> ();
+		RegisterComponent<PointsMaster> (pointsMaster);
     }
 
     void OnApplicationQuit()

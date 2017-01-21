@@ -20,7 +20,7 @@ public class CannonScript : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerFiredCannon += ResetCannon;
-		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerDied += InitiateCannon;
+		Toolbox.FindRequiredComponent<EventSystem> ().OnStartNewRound += InitiateCannon;
 		InitiateCannon ();
 
 		Physics.gravity = Physics.gravity * 0.4f;
