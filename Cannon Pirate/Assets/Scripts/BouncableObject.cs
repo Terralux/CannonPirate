@@ -17,10 +17,10 @@ public class BouncableObject : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.gameObject.CompareTag ("CannonBall")) {
+		if (col.gameObject.CompareTag ("Player")) {
 			Rigidbody rb = col.gameObject.GetComponent<Rigidbody> ();
 			rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
-			rb.transform.LookAt (nextTarget);
+			rb.transform.LookAt (new Vector3(nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
 		}
 	}
 

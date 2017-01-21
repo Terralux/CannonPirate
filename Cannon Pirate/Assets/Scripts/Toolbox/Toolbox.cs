@@ -24,6 +24,9 @@ public class Toolbox : Singleton<Toolbox>
 
 		var eventSystem = this.GetOrAddComponent<EventSystem>();
 		RegisterComponent<EventSystem>(eventSystem);
+
+		var controller = this.GetOrAddComponent<Controller> ();
+		RegisterComponent<Controller> (controller);
     }
 
     void OnApplicationQuit()

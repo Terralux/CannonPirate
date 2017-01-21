@@ -15,8 +15,10 @@ public class GoalObject : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.gameObject.CompareTag ("CannonBall")) {
-			Debug.Log ("I won!");
+		if (col.gameObject.CompareTag ("Player")) {
+			if (Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerReachedGoal != null) {
+				Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerReachedGoal ();
+			}
 		}
 	}
 }
