@@ -14,17 +14,17 @@ public class Controller : MonoBehaviour {
 		if (Application.isMobilePlatform) {
 
 		} else {
-			if (Input.GetKeyDown (KeyCode.Return)) {
+			if (Input.GetKeyDown (KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
 				if (Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedReturn != null) {
 					Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedReturn ();
 				}
 			}
-			if (Input.GetMouseButtonDown (0)) {
+			if (Input.GetMouseButtonDown (0) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				if (Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedLeftMouseButton != null) {
 					Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedLeftMouseButton ();
 				}
 			}
-			if (Input.GetMouseButtonDown (1)) {
+			if (Input.GetMouseButtonDown (1) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				if (Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedRightMouseButton != null) {
 					Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedRightMouseButton ();
 				}

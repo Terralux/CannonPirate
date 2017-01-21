@@ -11,6 +11,8 @@ public class EventSystem : MonoBehaviour{
 	public voidEvent OnPlayerReachedGoal;
 	public voidEvent OnPlayerRanOutOffLives;
 	public voidEvent OnPlayerFiredCannon;
+	public voidEvent OnPlayerBounced;
+	public voidEvent OnStartNewRound;
 
 	public voidEvent OnPlayerSelectedALevel;
 	public voidEvent OnPlayerSelectedWatchAnAdd;
