@@ -12,7 +12,7 @@ public class Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Application.isMobilePlatform) {
-
+			
 		} else {
 			if (Input.GetKeyDown (KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
 				if (Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedReturn != null) {
