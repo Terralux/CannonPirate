@@ -20,10 +20,7 @@ public class BouncableObject : MonoBehaviour {
 
 	public BouncableObjectTypes myType;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	public bool isReflectingPlayer = true;
 
 	void OnTriggerEnter(Collider col){
 		if (col.gameObject.CompareTag ("Player")) {
@@ -37,8 +34,12 @@ public class BouncableObject : MonoBehaviour {
 				if (currentState != CannonBallAbilities.PlayerStates.NEUTRAL) {
 					col.gameObject.GetComponent<CannonBallAbilities> ().Kill ();
 				} else {
-					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
-					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					if (isReflectingPlayer) {
+						rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
+						rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					} else {
+						rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
+					}
 					Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBounced ();
 				}
 				break;
@@ -85,8 +86,12 @@ public class BouncableObject : MonoBehaviour {
 				}
 				break;
 			case BouncableObjectTypes.ONE_TIME_USE:
-				rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
-				rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+				if (isReflectingPlayer) {
+					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
+					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+				} else {
+					rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
+				}
 				Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBounced ();
 
 				Debug.LogWarning ("The Object was destroyed rather than playing an animation");

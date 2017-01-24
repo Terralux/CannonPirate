@@ -24,6 +24,7 @@ Shader "StylizedWater/Mobile Advanced" {
         _Tiling ("Tiling", Range(0.1, 1)) = 0.9
         _Rimtiling ("Rim tiling", Float ) = 2
         _Wavesspeed ("Waves speed", Range(0, 10)) = 0.75
+        _Wavesstrength ("Waves strength", Range(0, 1)) = 0.66
         [NoScaleOffset][Normal]_Normals ("Normals", 2D) = "black" {}
         [NoScaleOffset]_Shadermap ("Shadermap", 2D) = "black" {}
         [HideInInspector]_Cutoff ("Alpha cutoff", Range(0,1)) = 0.5
@@ -64,6 +65,7 @@ Shader "StylizedWater/Mobile Advanced" {
             uniform sampler2D _Normals;
             uniform fixed _Wavesspeed;
             uniform fixed _Glossiness;
+            uniform float _Wavesstrength;
             uniform fixed _Depth;
             uniform fixed _Depthdarkness;
             uniform fixed _Rimtiling;
@@ -96,7 +98,16 @@ Shader "StylizedWater/Mobile Advanced" {
                 o.normalDir = UnityObjectToWorldNormal(v.normal);
                 o.tangentDir = normalize( mul( unity_ObjectToWorld, float4( v.tangent.xyz, 0.0 ) ).xyz );
                 o.bitangentDir = normalize(cross(o.normalDir, o.tangentDir) * v.tangent.w);
+                float4 node_8305 = _Time + _TimeEditor;
+                float WaveSpeed = (node_8305.g*(_Wavesspeed*0.1));
+                fixed mWaveSpeed = WaveSpeed;
+                fixed2 Tiling = (lerp( ((-20.0)*o.uv0), mul(unity_ObjectToWorld, v.vertex).rgb.rb, _Worldspacetiling )*(1.0 - _Tiling));
+                fixed2 mTiling = Tiling;
+                fixed2 WavePanningV = (mTiling+mWaveSpeed*float2(0,1));
+                fixed3 node_4911 = UnpackNormal(tex2Dlod(_Normals,float4(WavePanningV,0.0,0)));
+                v.vertex.xyz += (v.normal*node_4911.r*_Wavesstrength);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
+                
                 float3 lightColor = _LightColor0.rgb;
                 o.pos = mul(UNITY_MATRIX_MVP, v.vertex );
                 UNITY_TRANSFER_FOG(o,o.pos);
