@@ -48,8 +48,11 @@ public class BuoyancyScript : MonoBehaviour {
 		Vector3 minPos = waterTransform.TransformPoint (water.vertices[minIndex]);
 		//Vector3 minPos = waterTransform.TransformPoint (waves.GetPositionOfVertex(minIndex));
 
+		//it runs at 10 by 83 FPS
+		//it should have 
+
 		if (transform.position.y < minPos.y) {
-			rb.AddForce (new Vector3 (0, upwardsForce, 0) + rb.velocity * -1 * viscusity);
+			rb.AddForce ((new Vector3 (0, upwardsForce, 0) + rb.velocity * -1 * viscusity) * Time.deltaTime * 83);
 
 			average = Vector3.zero;
 			int count = 0;
@@ -67,7 +70,7 @@ public class BuoyancyScript : MonoBehaviour {
 
 			average = average / count;
 
-			rb.AddForceAtPosition (Vector3.up * surfaceFloatForce, average);
+			rb.AddForceAtPosition ((Vector3.up * surfaceFloatForce) * Time.deltaTime * 83, average);
 		}
 	}
 }
