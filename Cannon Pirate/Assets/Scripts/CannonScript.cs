@@ -70,6 +70,7 @@ public class CannonScript : MonoBehaviour {
 		if (targetIndex == -1) {
 			targetIndex = targets.Count - 1;
 		}
+		Toolbox.FindRequiredComponent<EventSystem> ().OnSwitchedTarget ();
 	}
 
 	public void SwitchTargetRight(){
@@ -77,6 +78,7 @@ public class CannonScript : MonoBehaviour {
 		if (targetIndex == targets.Count) {
 			targetIndex = 0;
 		}
+		Toolbox.FindRequiredComponent<EventSystem> ().OnSwitchedTarget ();
 	}
 
 	public void ResetCannon(){

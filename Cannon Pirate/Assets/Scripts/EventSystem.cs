@@ -5,6 +5,7 @@ using UnityEngine;
 public class EventSystem : MonoBehaviour{
 
 	public delegate void voidEvent();
+	public delegate void intEvent(int value);
 
 	public voidEvent OnStartGame;
 	public voidEvent OnPlayerDied;
@@ -13,6 +14,11 @@ public class EventSystem : MonoBehaviour{
 	public voidEvent OnPlayerFiredCannon;
 	public voidEvent OnPlayerBounced;
 	public voidEvent OnStartNewRound;
+	public voidEvent OnSwitchedTarget;
+
+	public intEvent OnPlayerFartsUpdated;
+	public intEvent OnPlayerBulletsUpdated;
+	public intEvent OnPlayerLivesUpdated;
 
 	public voidEvent OnPlayerSelectedALevel;
 	public voidEvent OnPlayerSelectedWatchAnAdd;

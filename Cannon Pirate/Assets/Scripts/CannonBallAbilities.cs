@@ -21,7 +21,6 @@ public class CannonBallAbilities : MonoBehaviour {
 
 	public PlayerStates myState = PlayerStates.NEUTRAL;
 
-	// Use this for initialization
 	void Awake () {
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedLeftMouseButton += ActivateFlintlock;
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerPressedRightMouseButton += ActivateSword;
@@ -32,6 +31,10 @@ public class CannonBallAbilities : MonoBehaviour {
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerReachedGoal += Kill;
 	}
 
+	void Start(){
+		Reset ();
+	}
+
 	public void ActivateSword(){
 		myState = PlayerStates.SWORD;
 	}
@@ -40,6 +43,7 @@ public class CannonBallAbilities : MonoBehaviour {
 		if (currentBullets > 0) {
 			myState = PlayerStates.FLINTLOCK;
 			currentBullets--;
+			Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBulletsUpdated (currentBullets);
 		}
 	}
 
@@ -49,12 +53,16 @@ public class CannonBallAbilities : MonoBehaviour {
 			Rigidbody rb = GetComponent<Rigidbody> ();
 			rb.velocity = rb.velocity + new Vector3 (0, fartForce, 0);
 			currentFartCharges--;
+			Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerFartsUpdated (currentFartCharges);
 		}
 	}
 
 	public void Reset(){
 		currentBullets = maxBullets;
 		currentFartCharges = maxFartCharges;
+
+		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBulletsUpdated (currentBullets);
+		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerFartsUpdated (currentFartCharges);
 	}
 
 	public void ResetState(){

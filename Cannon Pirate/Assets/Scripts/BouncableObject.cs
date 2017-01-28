@@ -15,7 +15,8 @@ public class BouncableObject : MonoBehaviour {
 		REGULAR,
 		CUTABLE,
 		SHOOTABLE,
-		ONE_TIME_USE
+		ONE_TIME_USE,
+		MULTIPLE_DIRECTIONS
 	}
 
 	public BouncableObjectTypes myType;
@@ -31,7 +32,7 @@ public class BouncableObject : MonoBehaviour {
 
 			switch (myType) {
 			case BouncableObjectTypes.REGULAR:
-				if (currentState != CannonBallAbilities.PlayerStates.NEUTRAL) {
+				if (currentState != CannonBallAbilities.PlayerStates.NEUTRAL && currentState != CannonBallAbilities.PlayerStates.FARTING) {
 					col.gameObject.GetComponent<CannonBallAbilities> ().Kill ();
 				} else {
 					if (isReflectingPlayer) {
@@ -97,6 +98,26 @@ public class BouncableObject : MonoBehaviour {
 				Debug.LogWarning ("The Object was destroyed rather than playing an animation");
 				Destroy (gameObject);
 				break;
+			case BouncableObjectTypes.MULTIPLE_DIRECTIONS:
+				switch(currentState){
+				case CannonBallAbilities.PlayerStates.NEUTRAL:
+					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
+					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					break;
+				case CannonBallAbilities.PlayerStates.SWORD:
+					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0) + Vector3.right * bounceForce;
+					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					break;
+				case CannonBallAbilities.PlayerStates.FLINTLOCK:
+					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0) + Vector3.right * -1 * bounceForce;
+					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					break;
+				case CannonBallAbilities.PlayerStates.FARTING:
+					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
+					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					break;
+				}
+				break;
 			}
 		}
 	}
@@ -120,6 +141,10 @@ public class BouncableObject : MonoBehaviour {
 		if (nextTarget != null) {
 			Gizmos.color = Color.red;
 			Gizmos.DrawLine (transform.position, (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0) + transform.position);
+		}
+
+		if (myType == BouncableObjectTypes.MULTIPLE_DIRECTIONS) {
+			
 		}
 	}
 }
