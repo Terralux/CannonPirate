@@ -21,25 +21,26 @@ public class CameraControl : MonoBehaviour {
 
 	public float maxOffset;
 
-	private Transform origin;
 	private Vector3 lookTarget;
 
 	private float fraction;
 
+	private Transform cannon;
+
 	// Use this for initialization
 	void Awake () {
-		origin = new GameObject ("Camera Origin").transform;
-		origin.position = transform.position;
-		target = origin;
+		cannon = GameObject.FindGameObjectWithTag ("CannonPosition").transform;
+		PlayerDied ();
 
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerFiredCannon += PlayerFiredCannon;
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerReachedGoal += PlayerReachedGoal;
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerDied += PlayerDied;
+
+		Toolbox.FindRequiredComponent<EventSystem> ().OnSwitchedTarget += ResetFraction;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 		if (target == null) {
 			return;
 		}
@@ -48,10 +49,11 @@ public class CameraControl : MonoBehaviour {
 		case CameraState.GOAL_POSITION:
 			break;
 		case CameraState.START_POSITION:
-			fraction = Vector3.Distance (target.position, transform.position) / maxOffset;
+			fraction += Time.deltaTime / 2;
 
-			transform.position = Vector3.Lerp (transform.position, target.position, fraction * 5);
-			transform.LookAt (Vector3.Lerp(transform.position + transform.forward, lookTarget, fraction));
+			lookTarget = cannon.position + cannon.forward * -(cameraDistance/2) + new Vector3 (0, cameraHeight/2, 0);
+			transform.position = Vector3.Lerp (transform.position, lookTarget, fraction);
+			transform.LookAt (target.position + Vector3.up * (cameraHeight/2));
 			break;
 		case CameraState.FOLLOWING_TARGET:
 			fraction = Vector3.Distance (target.position + new Vector3 (0, cameraHeight, cameraDistance), transform.position) / maxOffset;
@@ -74,7 +76,12 @@ public class CameraControl : MonoBehaviour {
 	}
 
 	public void PlayerDied(){
-		target = origin;
+		target = cannon;
+		lookTarget = cannon.position + cannon.forward * -(cameraDistance/2) + new Vector3 (0, cameraHeight/2, 0);
 		currentState = CameraState.START_POSITION;
+	}
+
+	public void ResetFraction(){
+		fraction = 0;
 	}
 }
