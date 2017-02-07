@@ -28,7 +28,6 @@ public class CannonBallAbilities : MonoBehaviour {
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerDied += Reset;
 
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBounced += ResetState;
-		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerReachedGoal += Kill;
 	}
 
 	void Start(){
@@ -78,7 +77,6 @@ public class CannonBallAbilities : MonoBehaviour {
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerDied -= Reset;
 
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBounced -= ResetState;
-		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerReachedGoal -= Kill;
 
 		Destroy (gameObject);
 	}
