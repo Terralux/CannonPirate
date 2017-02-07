@@ -9,8 +9,8 @@ public class CannonScript : MonoBehaviour {
 	private List<Transform> targets = new List<Transform> ();
 	private int targetIndex = 0;
 
-	private float currentPower = 300;
-	public float shotIntensity = 500f;
+	public float currentPower = 300;
+	//public float shotIntensity = 500f;
 
 	//private bool isBoosting = false;
 	//private bool isIncreasing = true;
@@ -23,7 +23,7 @@ public class CannonScript : MonoBehaviour {
 		Toolbox.FindRequiredComponent<EventSystem> ().OnStartNewRound += InitiateCannon;
 		InitiateCannon ();
 
-		Physics.gravity = Physics.gravity * 0.4f;
+		//Physics.gravity = Physics.gravity * 0.8f;
 	}
 
 	void Start(){
