@@ -25,6 +25,8 @@ public class GameSessionUIHandler : MonoBehaviour {
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerLivesUpdated += UpdateLife;
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerFartsUpdated += UpdateFarts;
 		Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBulletsUpdated += UpdateBullet;
+
+		Toolbox.FindRequiredComponent<EventSystem> ().OnStartGame ();
 	}
 
 	public void GoalReached(){
@@ -48,13 +50,13 @@ public class GameSessionUIHandler : MonoBehaviour {
 
 	public void UpdateLife(int value){
 		if (livesParent.transform.childCount < value) {
-			for (int i = 0; i < value - livesParent.transform.childCount; i++) {
+			for (int i = livesParent.transform.childCount; i < value; i++) {
 				Transform t = (Instantiate (lifePrefab, transform.position, Quaternion.identity) as GameObject).transform;
 				t.SetParent (livesParent.transform);
 			}
 		} else {
-			for (int i = 0; i < livesParent.transform.childCount - value; i++) {
-				Destroy(livesParent.transform.GetChild(0));
+			for (int i = value; i < livesParent.transform.childCount; i++) {
+				Destroy(livesParent.transform.GetChild(0).gameObject);
 			}
 		}
 	}
