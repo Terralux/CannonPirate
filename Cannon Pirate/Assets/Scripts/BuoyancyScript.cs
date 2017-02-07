@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 public class BuoyancyScript : MonoBehaviour {
 
-	[Range(0f,10f)]
+	[Range(0f,20f)]
 	public float upwardsForce = 1;
 
 	[Range(0f,10f)]
