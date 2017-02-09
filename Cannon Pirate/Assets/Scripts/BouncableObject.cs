@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class BouncableObject : MonoBehaviour {
 
-	[Range(-10,10)]
+	[Range(-100,100)]
 	public float bounceForce;
-	[Range(0,10)]
+	[Range(0,100)]
 	public float upwardsForce;
 
 	public Transform nextTarget;
@@ -102,20 +102,18 @@ public class BouncableObject : MonoBehaviour {
 			case BouncableObjectTypes.MULTIPLE_DIRECTIONS:
 				switch(currentState){
 				case CannonBallAbilities.PlayerStates.NEUTRAL:
-					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
-					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
 					break;
 				case CannonBallAbilities.PlayerStates.SWORD:
-					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0) + Vector3.right * bounceForce;
-					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * bounceForce + new Vector3 (0, upwardsForce, 0) + rb.transform.right * bounceForce;
+					rb.transform.LookAt (rb.transform.position + new Vector3(rb.velocity.x, 0, rb.velocity.z));
 					break;
 				case CannonBallAbilities.PlayerStates.FLINTLOCK:
-					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0) + Vector3.right * -1 * bounceForce;
-					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * bounceForce + new Vector3 (0, upwardsForce, 0) + rb.transform.right * -1 * bounceForce;
+					rb.transform.LookAt (rb.transform.position + new Vector3(rb.velocity.x, 0, rb.velocity.z));
 					break;
 				case CannonBallAbilities.PlayerStates.FARTING:
-					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
-					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
 					break;
 				}
 				break;
