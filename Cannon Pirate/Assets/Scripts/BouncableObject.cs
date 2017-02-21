@@ -69,21 +69,19 @@ public class BouncableObject : MonoBehaviour {
 			case BouncableObjectTypes.SHOOTABLE:
 				switch(currentState){
 				case CannonBallAbilities.PlayerStates.NEUTRAL:
-					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
-					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
+					col.gameObject.GetComponent<CannonBallAbilities> ().Kill ();
 					break;
 				case CannonBallAbilities.PlayerStates.SWORD:
 					col.gameObject.GetComponent<CannonBallAbilities> ().Kill ();
-					//Cut this Object and proceed
 					break;
 				case CannonBallAbilities.PlayerStates.FLINTLOCK:
-					rb.velocity += new Vector3 (0, upwardsForce, 0);
+					//rb.velocity += new Vector3 (0, upwardsForce, 0);
+					rb.velocity = (nextTarget.position - transform.position).normalized * bounceForce + new Vector3 (0, upwardsForce, 0);
+					rb.transform.LookAt (new Vector3 (nextTarget.position.x, rb.transform.position.y, nextTarget.position.z));
 					Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBounced ();
-					//End movement
 					break;
 				case CannonBallAbilities.PlayerStates.FARTING:
 					col.gameObject.GetComponent<CannonBallAbilities> ().Kill ();
-					//End movement
 					break;
 				}
 				break;
@@ -97,7 +95,7 @@ public class BouncableObject : MonoBehaviour {
 				Toolbox.FindRequiredComponent<EventSystem> ().OnPlayerBounced ();
 
 				Debug.LogWarning ("The Object was destroyed rather than playing an animation");
-				Destroy (gameObject);
+				Destroy (transform.parent.gameObject);
 				break;
 			case BouncableObjectTypes.MULTIPLE_DIRECTIONS:
 				switch(currentState){
