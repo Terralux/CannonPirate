@@ -5,23 +5,32 @@ using System.Collections.Generic;
 /// <summary>
 /// Toolbox.
 /// BASED ON: http://wiki.unity3d.com/index.php/Toolbox
+/// GUIDE BY: Light
 /// </summary>
+
+
+//	The Toolbox is extending Singleton of type Toolbox
+// 	Having a Singleton means that there will always only be one of this instance
 public class Toolbox : Singleton<Toolbox>
 {
     readonly static bool DEBUG_ENABLED = false;
 
     protected Toolbox()
     {
-        // Guarantee this will be always a singleton only - can't use the constructor!
+        // Since the Constructor is protected an instance can't be made of the Toolbox
     } 
 
     static bool applicationIsQuitting = false;
     Dictionary<System.Type, Component> registeredComponents = new Dictionary<System.Type, Component>();
 
+	//	On Awake, we call the DontDestroyOnLoad of our gameObject to ensure it will persist throughout scenes
     void Awake()
     {
 		DontDestroyOnLoad (gameObject);
 
+		//This is an example of how to add global Components for the Toolbox
+		//In other words, this ensures that I will always have a Component of type eventSystem attached to the Toolbox
+		/*
 		var eventSystem = this.GetOrAddComponent<EventSystem>();
 		RegisterComponent<EventSystem>(eventSystem);
 
@@ -30,6 +39,7 @@ public class Toolbox : Singleton<Toolbox>
 
 		var pointsMaster = this.GetOrAddComponent<PointsMaster> ();
 		RegisterComponent<PointsMaster> (pointsMaster);
+		*/
     }
 
     void OnApplicationQuit()

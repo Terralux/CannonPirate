@@ -9,7 +9,7 @@
 /// </summary>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    readonly static bool DEBUG_ENABLED = false;
+	readonly static bool DEBUG_ENABLED = true;
 
     private static T _instance;
     
