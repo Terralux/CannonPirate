@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelButtonScript : MonoBehaviour {
 
@@ -13,5 +14,9 @@ public class LevelButtonScript : MonoBehaviour {
 	public Sprite levelImage;
 
 	public SceneField levelAsset;
+
+	public void loadLevel(){
+		SceneManager.LoadScene (levelAsset.SceneAsset.name);
+	}
 
 }
